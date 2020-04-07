@@ -36,6 +36,8 @@ AddressBook.prototype.deleteContact = function(id) {
     if (this.contacts[i]) {
       if (this.contacts[i].id == id) {
         delete this.contacts[i];
+        delete this.homeAddress[i];
+        delete this.officeAddress[i];
         return true;
       }
     }
@@ -50,10 +52,7 @@ function Contact(firstName, lastName, phoneNumber, email) {
   this.phoneNumber = phoneNumber,
   this.email = email
 }
-
-  
-
-
+// Business Logic for Addresses
 function Address(sName, cName, stName, zip){
   this.sName = sName,
   this.cName = cName,
