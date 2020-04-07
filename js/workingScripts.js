@@ -1,18 +1,12 @@
 // Business Logic for AddressBook ---------
 function AddressBook() {
   this.contacts = [],
-  this.homeAddress = [],
-  this.officeAddress =[],
   this.currentId = 0
 }
 
-AddressBook.prototype.addContact = function(contact, homeAddress, officeAddress) {
+AddressBook.prototype.addContact = function(contact) {
   contact.id = this.assignId();
   this.contacts.push(contact);
-  this.homeAddress.push(homeAddress);
-  this.officeAddress.push(officeAddress)
-  homeAddress.id = contact.id;
-  officeAddress.id = contact.id;
 }
 
 AddressBook.prototype.assignId = function() {
@@ -44,25 +38,13 @@ AddressBook.prototype.deleteContact = function(id) {
 }
 
 // Business Logic for Contacts ---------
-function Contact(firstName, lastName, phoneNumber, email) {
+function Contact(firstName, lastName, phoneNumber, email, phyAddress) {
   this.firstName = firstName,
   this.lastName = lastName,
   this.phoneNumber = phoneNumber,
-  this.email = email
+  this.email = email,
+  this.phyAddress = phyAddress
 }
-
-  
-
-
-function Address(sName, cName, stName, zip){
-  this.sName = sName,
-  this.cName = cName,
-  this.stName = stName,
-  this.zip = zip
-}
-
-
-
 
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
@@ -75,7 +57,7 @@ function displayContactDetails(addressBookToDisplay) {
   var contactsList = $("ul#contacts");
   var htmlForContactInfo = "";
   addressBookToDisplay.contacts.forEach(function(contact) {
-    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "  " + contact.email + " " + "</li>" ;
+    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "  " + contact.email + " " + contact.phyAddress + "</li>" ;
   contactsList.html(htmlForContactInfo);
 });
 contactsList.html(htmlForContactInfo);
@@ -88,7 +70,7 @@ function showContact(contactId) {
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
   $(".email").html(contact.email);
-  //$(".phy-address").html(contact.phyAddress);
+  $(".phy-address").html(contact.phyAddress);
   var buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + contact.id + ">Delete</button>");
@@ -113,27 +95,16 @@ $(document).ready(function() {
     var inputtedLastName = $("input#new-last-name").val();
     var inputtedPhoneNumber = $("input#new-phone-number").val();
     var inputtedEmailAddress = $("input#emailAddress").val();
-    //var inputtedphysicalAddress = $("input#physicalAddress").val();
-    var streetNo = $("input#streetNo").val();
-    var city = $("input#city").val();
-    var state = $("input#state").val();
-    var zip = $("input#zip").val();
-    var oStreetNo = $("input#oStreetNo").val();
-    var oCity = $("input#oCity").val();
-    var oState = $("input#oState").val();
-    var oZip = $("input#oZip").val();
-
-    alert(inputtedFirstName + inputtedLastName + inputtedPhoneNumber + inputtedEmailAddress);
-    alert(streetNo+city+state+zip+oStreetNo+oCity+oZip+oState);
-   // $("input#new-first-name").val("");
-    //$("input#new-last-name").val("");
-   // $("input#new-phone-number").val("");
-    //$("input#emailAddress").val("");
-    var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmailAddress);
-    var homeAddress = new Address(streetNo,city,state,zip);
-    var officeAddress = new Address(oStreetNo,oCity,oState,oZip);
-    addressBook.addContact(newContact, homeAddress, officeAddress);
+    var inputtedphysicalAddress = $("input#physicalAddress").val();
+    alert(inputtedFirstName + inputtedLastName + inputtedPhoneNumber + inputtedEmailAddress + inputtedphysicalAddress);
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input#new-phone-number").val("");
+    $("input#emailAddress").val();
+    $("input#physicalAddress").val();
+    
+    var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmailAddress, inputtedphysicalAddress);
+    addressBook.addContact(newContact);
     displayContactDetails(addressBook);
   })
 })
-
